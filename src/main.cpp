@@ -28,8 +28,8 @@
 const uint8_t DEBOUNCE_DELAY = 10; // in milliseconds
 
 // WiFi credentials
-const char *WIFI_SSID = "YOUR_WIFI_SSID";
-const char *WIFI_PASS = "YOUR_WIFI_PASSWORD";
+const char *WIFI_SSID = "super_worlds";
+const char *WIFI_PASS = "19pleasant";
 
 // ----------------------------------------------------------------------------
 // Definition of the LED component
@@ -156,8 +156,9 @@ void initWebServer() {
 // ----------------------------------------------------------------------------
 
 void notifyClients() {
-    const uint8_t size = JSON_OBJECT_SIZE(1);
-    StaticJsonDocument<size> json;
+    //const uint8_t size = JSON_OBJECT_SIZE(1);
+    //StaticJsonDocument<size> json;
+    JsonDocument json;
     json["status"] = led.on ? "on" : "off";
 
     char buffer[17];
@@ -169,8 +170,7 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
     AwsFrameInfo *info = (AwsFrameInfo*)arg;
     if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT) {
 
-        const uint8_t size = JSON_OBJECT_SIZE(1);
-        StaticJsonDocument<size> json;
+        JsonDocument json;
         DeserializationError err = deserializeJson(json, data);
         if (err) {
             Serial.print(F("deserializeJson() failed with code "));
